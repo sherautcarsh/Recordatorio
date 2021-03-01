@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:recordatorio/info_page.dart';
 void main() {
-  runApp(MyApp());
+  runApp(Tasks());
 }
 
+/*
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -115,3 +116,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/
