@@ -4,7 +4,6 @@ void main() {
   runApp(Tasks());
 }
 
-/*
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -116,4 +115,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-*/
