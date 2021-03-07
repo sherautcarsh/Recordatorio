@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531756099052",
+    "project_id": "recrio",
+    "storage_bucket": "recrio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531756099052:android:f8a92bd71c4fcfd8ca4cc9",
+        "android_client_info": {
+          "package_name": "com.example.recordatorio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531756099052-pq2cjmn85k8f1v7vte113uviqof080qk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeh82tRcLsRhpR7jiVr4bvxSJye6XIKBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531756099052-pq2cjmn85k8f1v7vte113uviqof080qk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
