@@ -46,7 +46,7 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
                 color: Colors.green[400],
                 child: Text("LOGIN",
                     style: TextStyle(color: Colors.white, fontSize: 30)),
-                textColor: Colors.white,
+                //textColor: Colors.white,
               ),
               SizedBox(height: 80.0,),
               Row(
@@ -55,6 +55,7 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
                   Text(
                     "Do not have an account?",
                     style: TextStyle(
+                      color: Colors.blue[800],
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
