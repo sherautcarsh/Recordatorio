@@ -55,7 +55,7 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
                   Text(
                     "Do not have an account?",
                     style: TextStyle(
-                      color: Colors.blue[800],
+                      color: Colors.blue[900],
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
