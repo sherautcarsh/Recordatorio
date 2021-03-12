@@ -31,28 +31,32 @@ class _TasksState extends State<Tasks> {
           iconSize: 30,
           elevation: 100000.0,
           unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.redAccent,
+          selectedItemColor: Colors.yellow,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.post_add_sharp),
+              // ignore: deprecated_member_use
               title: Text("TASKS"),
               backgroundColor: Colors.grey[800],
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.dynamic_feed_rounded),
+              // ignore: deprecated_member_use
               title: Text("FEED"),
               backgroundColor: Colors.grey[800],
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
+              // ignore: deprecated_member_use
               title: Text("NOTIFICATIONS"),
               backgroundColor: Colors.grey[800],
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.work_outlined),
+              // ignore: deprecated_member_use
               title: Text("POSTS"),
               backgroundColor: Colors.grey[800],
             ),
