@@ -31,7 +31,7 @@ class _TasksState extends State<Tasks> {
           iconSize: 30,
           elevation: 100000.0,
           unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.yellow,
+          selectedItemColor: Colors.red,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.post_add_sharp),
