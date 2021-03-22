@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:recordatorio/Signup_page.dart';
-import 'package:firebase_auth/firebase_auth.dart ';
-import 'package:recordatorio/info_page.dart';
+import 'package:recordatorio/Screens/Signup_page.dart';
+//import 'package:firebase_auth/firebase_auth.dart ';
+import 'package:recordatorio/Screens/info_page.dart';
  class WelcomeLogin extends StatefulWidget {
   @override
   _WelcomeLoginState createState() => _WelcomeLoginState();

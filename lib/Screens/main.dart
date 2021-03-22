@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:recordatorio/welcome_page.dart';
+import 'package:recordatorio/Screens/welcome_page.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
+import 'package:provider/provider.dart';
+import 'package:recordatorio/Models/authentication.dart';
 void main() {
   runApp(MyApp());
 }
@@ -9,12 +10,18 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'RECORDATORIO',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+            value : Authentication())
+      ],
+      child: MaterialApp(
+        title: 'RECORDATORIO',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: WelcomeLogin(),
       ),
-      home: WelcomeLogin(),
     );
   }
 }
