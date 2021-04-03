@@ -1,3 +1,4 @@
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recordatorio/Screens/welcome_page.dart';
 
@@ -17,7 +18,9 @@ class _SignupState extends State<Signup> {
     super.dispose();
   }
 
-  var name, email, password, rePassword;
+  bool _validate = false;
+  bool _passwordMatch = false;
+  var name = '', email = '', password = '', rePassword = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +41,16 @@ class _SignupState extends State<Signup> {
             MaterialButton(
               minWidth: double.minPositive,
               height: 50,
-              onPressed: () {
-                name = control[0].text;
-                email = control[1].text;
-                password = control[2].text;
-                rePassword = control[3].text;
-                if(name == null || email == null || password == null || rePassword == null){
-                  return "Fields are empty";
+              onPressed: () async {
+                /*print(name);
+                print(email);
+                print(password);
+                print(rePassword);*/
+
+                if(name.isEmpty || email.isEmpty || password.isEmpty || rePassword.isEmpty){
+                  setState(() {
+                   _validate = true;
+                  });
                 }
                 else{
                 if(password == rePassword)
@@ -52,18 +58,16 @@ class _SignupState extends State<Signup> {
                 Navigator.push(context, MaterialPageRoute(
                     builder:
 
-
                             (context)=>WelcomeLogin()
                     ));
                 }
                 else {
-                  return AlertDialog(
-                    content: Text("Your password does not match"),
-                  );
+                  setState(() {
+                    _passwordMatch = true;
+                  });
                   }
                 }
-                }
-                ,
+              },
               color: Colors.green[400],
               child: Text("SIGN UP",
                   style: TextStyle(color: Colors.white, fontSize: 30)),
@@ -77,17 +81,43 @@ class _SignupState extends State<Signup> {
   }
   buildTextField(String labelText,IconData icon, int index){
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      margin: EdgeInsets.symmetric(horizontal: 15.0),
       height: 60.0,
       decoration: BoxDecoration(
-
         color: Colors.blue[600],
+          border: Border.all(
+            color: Colors.blue[600],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+
       ),
       child: TextField(
         controller: control[index],
+        onChanged: (val){
+          setState(() {
+            if(index == 0){
+              name = val;
+            }else if(index==1){
+              email = val;
+            }else if(index==2){
+              password = val;
+            }else{
+              rePassword = val;
+            }
+          });
+        },
+
+
+
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 100),
+          contentPadding: const EdgeInsets.all(10.0),
             labelText: labelText,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            alignLabelWithHint: true,
+            errorText: _validate ? 'Fields cannot be empty !!' : (_passwordMatch) ? 'Passwords do not match !!' : null,
+            errorStyle: TextStyle(
+              color: Colors.yellowAccent,
+            ),
             labelStyle: TextStyle(
               fontSize: 15.0,
               color: Colors.white,
@@ -98,14 +128,22 @@ class _SignupState extends State<Signup> {
               color: Colors.white,
             ),
             // prefix: Icon(icon),
-            border: InputBorder.none),
+            border: InputBorder.none,
+
+        ),
+        obscureText: (index==2||index==3)?true:false,
+        obscuringCharacter: '*',
+
+        cursorColor: Colors.white,
+        style: TextStyle(
+          color: Colors.red,
+
+        ),
       ),
     );
   }
 
-
-
-
+  
 }
 
 
