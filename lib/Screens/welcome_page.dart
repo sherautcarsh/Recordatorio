@@ -157,7 +157,6 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
             border: InputBorder.none,
 
         ),
-        obscureText: (labelText=="Password")?true:false,
         obscuringCharacter: '*',
         cursorColor: Colors.white,
         style: TextStyle(
