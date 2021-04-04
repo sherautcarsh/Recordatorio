@@ -1,15 +1,35 @@
-import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:recordatorio/Screens/Signup_page.dart';
-//import 'package:firebase_auth/firebase_auth.dart ';
-import 'package:recordatorio/Screens/info_page.dart';
+import 'package:provider/provider.dart';
+import 'package:recordatorio/Models/authentication.dart';
+
+import 'Signup_page.dart';
+import 'info_page.dart';
+
+
  class WelcomeLogin extends StatefulWidget {
   @override
   _WelcomeLoginState createState() => _WelcomeLoginState();
 }
 
+Map<String, String> _authData = {
+  'email' : '',
+  'password' : ''
+};
+
 class _WelcomeLoginState extends State<WelcomeLogin> {
+
+  final control0 = TextEditingController();
+  final control1 = TextEditingController();
+
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    control1.dispose();
+    control0.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,17 +51,18 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
                 ),
               ),
               /////////
-              buildTextField('Email',Icons.account_circle),
+              buildTextField('Email', Icons.account_circle, control0, false),
               SizedBox(height: 20.0),
-              buildTextField('Password',Icons.lock),
+              buildTextField('Password', Icons.lock, control1, true),
               SizedBox(height: 60),
               MaterialButton(
                 minWidth: double.minPositive,
                 height: 50,
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context)=>Tasks()
-                  ));
+                  _authData['email'] = control0.text;
+                  _authData['password'] = control1.text;
+                  _submit();
+
                 },
                 color: Colors.green[400],
                 child: Text("LOGIN",
@@ -60,21 +81,23 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
                       fontWeight: FontWeight.bold,
                     ),
 
-              ),
+                  ),
                   MaterialButton(
                     minWidth: double.minPositive,
                     height: 20,
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=>Signup()
+                          builder: (context) => Signup()
                       ));
+
                     },
                     color: Colors.blue,
                     child: Text("SIGNUP",
-                        style: TextStyle(color: Colors.grey[300], fontSize: 20)),
+                        style: TextStyle(
+                            color: Colors.grey[300], fontSize: 20)),
                     textColor: Colors.white,
                   ),
-              ],
+                ],
               ),
             ],
           ),
@@ -82,7 +105,29 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
       ),
     );
   }
-  buildTextField(String labelText,IconData icon){
+
+  Future<void> _submit() async
+  {
+    try {
+      await Provider.of<Authentication>(context, listen: false).logIn(
+          _authData['email'],
+          _authData['password']
+      );
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => Tasks()
+      ));
+
+    } catch (error) {
+      var errorMessage = 'Authentication Failed. Please try again later.';
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Authentication Failed'),
+      )
+      );
+    }
+  }
+
+  buildTextField(String labelText, IconData icon,
+      TextEditingController control, bool pass) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0),
       height: 60.0,
@@ -91,6 +136,8 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
         color: Colors.blue[600],
       ),
       child: TextField(
+        controller: control,
+        obscureText: pass,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10),
             labelText: labelText,
@@ -108,6 +155,6 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
       ),
     );
   }
+
+
 }
-
-

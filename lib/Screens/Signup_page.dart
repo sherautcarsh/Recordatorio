@@ -1,4 +1,8 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:recordatorio/Models/authentication.dart';
 import 'package:recordatorio/Screens/welcome_page.dart';
 
 class Signup extends StatefulWidget {
@@ -6,16 +10,30 @@ class Signup extends StatefulWidget {
   _SignupState createState() => _SignupState();
 }
 
+
+Map<String, String> _authData = {
+  'email' : '',
+  'password' : ''
+};
+
 class _SignupState extends State<Signup> {
 
-  List<TextEditingController> control = new List(4);
+  final control0 = TextEditingController();
+  final control1 = TextEditingController();
+  final control2 = TextEditingController();
+  final control3 = TextEditingController();
+
   void dispose() {
+
     // Clean up the controller when the widget is disposed.
-    for(TextEditingController controller in control){
-      controller.dispose();
-    }
+    control3.dispose();
+    control2.dispose();
+    control1.dispose();
+    control0.dispose();
     super.dispose();
   }
+
+
 
   var name, email, password, rePassword;
   @override
@@ -26,40 +44,42 @@ class _SignupState extends State<Signup> {
         child: Column(
           children: [
             SizedBox(height: 250.0),
-            buildTextField('Name',Icons.account_circle,0),
+            buildTextField('Name',Icons.account_circle, control0, false),
             SizedBox(height : 20.0),
-            buildTextField('Email',Icons.email,1),
+            buildTextField('Email',Icons.email, control1, false),
             SizedBox(height : 20.0),
-            buildTextField('Password',Icons.lock,2),
+            buildTextField('Password',Icons.lock, control2, true),
             SizedBox(height : 20.0),
-            buildTextField('Confirm Password',Icons.lock,3),
+            buildTextField('Confirm Password',Icons.lock, control3, true),
             SizedBox(height : 20.0),
             SizedBox(height: 60),
             MaterialButton(
               minWidth: double.minPositive,
               height: 50,
               onPressed: () {
-                name = control[0].text;
-                email = control[1].text;
-                password = control[2].text;
-                rePassword = control[3].text;
-                if(name == null || email == null || password == null || rePassword == null){
-                  return "Fields are empty";
+
+                name = control0.text;
+                email = control1.text;
+                password = control2.text;
+                rePassword = control3.text;
+                if(name == "" || email == ""|| password == "" || rePassword == ""){
+                  final snackBar = SnackBar(
+                    content: Text("Fields are Empty"),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
                 else{
                 if(password == rePassword)
                 {
-                Navigator.push(context, MaterialPageRoute(
-                    builder:
+                  _authData['email'] = email;
+                  _authData['password'] = password;
+                  _submit();
 
-
-                            (context)=>WelcomeLogin()
-                    ));
                 }
                 else {
-                  return AlertDialog(
-                    content: Text("Your password does not match"),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Passwords do not match"),
+                  ));
                   }
                 }
                 }
@@ -75,7 +95,34 @@ class _SignupState extends State<Signup> {
       ),
     );
   }
-  buildTextField(String labelText,IconData icon, int index){
+
+  Future<void> _submit() async
+  {
+
+    try{
+      await Provider.of<Authentication>(context, listen: false).signUp(
+          _authData['email'],
+          _authData['password']
+      );
+      Navigator.push(context, MaterialPageRoute(
+          builder:
+
+
+              (context)=>WelcomeLogin()
+      ));
+
+    } catch(error)
+    {
+      var errorMessage = 'Authentication Failed. Please try again later.';
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text ('Authentication Failed'),
+      )
+      );
+    }
+
+  }
+
+  buildTextField(String labelText,IconData icon, TextEditingController control, bool pass){
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0),
       height: 60.0,
@@ -84,7 +131,9 @@ class _SignupState extends State<Signup> {
         color: Colors.blue[600],
       ),
       child: TextField(
-        controller: control[index],
+
+        controller: control,
+        obscureText: pass,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 100),
             labelText: labelText,
@@ -102,9 +151,6 @@ class _SignupState extends State<Signup> {
       ),
     );
   }
-
-
-
 
 }
 
