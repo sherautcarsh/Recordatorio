@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recordatorio/Screens/welcome_page.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+//import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:recordatorio/Models/authentication.dart';
 void main() {

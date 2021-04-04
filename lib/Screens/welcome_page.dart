@@ -132,8 +132,11 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
       margin: EdgeInsets.symmetric(horizontal: 20.0),
       height: 60.0,
       decoration: BoxDecoration(
-
         color: Colors.blue[600],
+        border: Border.all(
+          color: Colors.blue[600],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: TextField(
         controller: control,
@@ -151,7 +154,16 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
               color: Colors.white,
             ),
             // prefix: Icon(icon),
-            border: InputBorder.none),
+            border: InputBorder.none,
+
+        ),
+        obscureText: (labelText=="Password")?true:false,
+        obscuringCharacter: '*',
+        cursorColor: Colors.white,
+        style: TextStyle(
+          color: Colors.red,
+
+        ),
       ),
     );
   }
