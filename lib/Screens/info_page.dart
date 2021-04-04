@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class Tasks extends StatefulWidget {
   @override
-  _TasksState createState() => _TasksState();
+  TasksState createState() => TasksState();
 }
-class _TasksState extends State<Tasks> {
+class TasksState extends State<Tasks> {
+
+  static const routeName = '/info';
   int currentindex = 0;
   final PageController _pageController = PageController();
   @override
@@ -71,4 +73,6 @@ class _TasksState extends State<Tasks> {
       ),
     );
   }
+
+
 }

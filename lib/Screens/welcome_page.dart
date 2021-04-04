@@ -2,10 +2,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recordatorio/Models/authentication.dart';
-
 import 'Signup_page.dart';
 import 'info_page.dart';
-
 
  class WelcomeLogin extends StatefulWidget {
   @override
@@ -19,6 +17,8 @@ Map<String, String> _authData = {
 
 class _WelcomeLoginState extends State<WelcomeLogin> {
 
+  static const routeName = '/logIn';
+
   final control0 = TextEditingController();
   final control1 = TextEditingController();
 
@@ -28,7 +28,6 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
     control0.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,12 +112,9 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
           _authData['email'],
           _authData['password']
       );
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Tasks()
-      ));
-
+      Navigator.of(context).pushReplacementNamed(TasksState.routeName);
     } catch (error) {
-      var errorMessage = 'Authentication Failed. Please try again later.';
+      print(error);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Authentication Failed'),
       )
@@ -166,6 +162,4 @@ class _WelcomeLoginState extends State<WelcomeLogin> {
       ),
     );
   }
-
-
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recordatorio/Screens/Signup_page.dart';
+import 'package:recordatorio/Screens/info_page.dart';
 import 'package:recordatorio/Screens/welcome_page.dart';
 //import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,16 @@ class MyApp extends StatelessWidget {
             value : Authentication())
       ],
       child: MaterialApp(
+        // Start the app with the "/" named route. In this case, the app starts
+        // on the FirstScreen widget.
+        initialRoute: '/logIn',
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/info': (context) => Tasks(),
+          '/logIn': (context) => WelcomeLogin(),
+          '/signUp': (context) => Signup()
+        },
+
         title: 'RECORDATORIO',
         theme: ThemeData(
           primarySwatch: Colors.blue,

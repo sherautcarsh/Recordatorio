@@ -18,6 +18,8 @@ Map<String, String> _authData = {
 
 class _SignupState extends State<Signup> {
 
+  static const routeName = '/signUp';
+
   final control0 = TextEditingController();
   final control1 = TextEditingController();
   final control2 = TextEditingController();
