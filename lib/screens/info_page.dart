@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 class Tasks extends StatefulWidget {
   @override
   TasksState createState() => TasksState();
@@ -9,14 +10,56 @@ class TasksState extends State<Tasks> {
   static const routeName = '/info';
   int currentindex = 0;
   final PageController _pageController = PageController();
+
+  String valueChoose;
+  List listItem =[
+    "Personal", "Academics" , "Project"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: Text('Should be Changed!!'),
+          actions: [
+            DropdownButton(
+              underline: Container(),
+              icon: Icon(
+                Icons.more_vert_sharp,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
+              items: [
+                DropdownMenuItem(
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Icon(Icons.exit_to_app_sharp),
+                        SizedBox(width: 10,),
+                        Text('LogOut'),
+                      ],
+                    ),
+                  ),
+                  value: 'LogOut',
+                ),
+              ],
+              onChanged: (itemIdentifier) {
+                if(itemIdentifier == 'LogOut'){
+                  FirebaseAuth.instance.signOut();
+                }
+              },
+            ),
+          ],
+        ),
         body: PageView(
           controller: _pageController,
           children: [
+
+            ////////////////////////////    TASKS TAB ONLY    /////////////////////////////////////
+
             Center(child: Text("Tab for tasks")),
+            /////////////////////////   TASKS COMPLETED    ///////////////////////////////
+
             Center(child: Text("Tab for feed")),
             Center(child: Text("Tab for notifications")),
             Center(child: Text("Tab for posts")),
