@@ -78,6 +78,10 @@ class _ProjectPageState extends State<ProjectPage>{
               ),
             ),
               (filterType=="timeline")?
+                  Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child :
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:[
@@ -119,6 +123,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Run away Happily", style: TextStyle(color: Color(0xFFFFFFFF),fontSize: 20),)
                               ],
                             ),
@@ -131,6 +136,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Find a girlfriend", style: TextStyle(color: Colors.white,fontSize: 20),)
                               ],
                             ),
@@ -143,6 +149,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Come back sad", style: TextStyle(color: Colors.white,fontSize: 20),)
                               ],
                             ),
@@ -187,6 +194,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Plan Better", style: TextStyle(color: Colors.white,fontSize: 20),)
                               ],
                             ),
@@ -199,7 +207,21 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Arranged Marriage?", style: TextStyle(color: Colors.white,fontSize: 20),)
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
+                            padding: EdgeInsets.all(2),
+                            height: 50,
+                            color: Color(0xFFCE3636),
+                            child: Row(
+                              children: [
+                                SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
+                                Text("Prepare to Live Alone", style: TextStyle(color: Colors.white,fontSize: 20),)
                               ],
                             ),
                           ),
@@ -243,6 +265,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Make a to-do app", style: TextStyle(color: Colors.white,fontSize: 20),)
                               ],
                             ),
@@ -255,6 +278,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
                                 Text("Accept your fate", style: TextStyle(color: Colors.white,fontSize: 20),)
                               ],
                             ),
@@ -263,8 +287,10 @@ class _ProjectPageState extends State<ProjectPage>{
                       ):Container(),
 
 
-                ],):
-                  Container(
+                ],)))
+
+                  //PROJECTS
+                  : Container(
 
 
                   ),
