@@ -7,10 +7,11 @@ class ProjectPage extends StatefulWidget{
 
 class _ProjectPageState extends State<ProjectPage>{
   String filterType = "timeline";
-  bool show = true,show2=true,show3=true;
+  bool today = true,tomorrow = false,later = false;
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      backgroundColor: Color(0xFFF3CACA),
       body: Stack(
         children: [
           Column(
@@ -77,34 +78,48 @@ class _ProjectPageState extends State<ProjectPage>{
               ),
             ),
               (filterType=="timeline")?
-              Stack(
-                children:[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:[
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 8.0),
-                    height: 60,
-                    color: Colors.white70,
-                    child: Row(
-                      children: [
-                        SizedBox(height: 0,width:10),
-                        Text("Today", style: TextStyle(color: Colors.redAccent,fontSize: 20),),
-                        IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: changeShow())
+                        TextButton(onPressed: (){
+                          today = !today;
+                          print(today);
+                          setState(() {
 
-                      ],
-                    ),
-                ),(show)?Column(
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0,),
+                          height: 60,
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              SizedBox(height: 0,width:12),
+                              Text("Today", style: TextStyle(color: Colors.redAccent,fontSize: 20),),
+                            ],
+                          ),
+                        ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                return Color(0xFFF3CACA);// Use the component's default.
+                              },
+                            ),
+                          ),
+                        ),
+
+                //TODAY STARTS HERE
+                (today)?Column(
                         children: [
                           Container(
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
-                                Text("Run away Happily", style: TextStyle(color: Colors.white,fontSize: 20),)
+                                Text("Run away Happily", style: TextStyle(color: Color(0xFFFFFFFF),fontSize: 20),)
                               ],
                             ),
                           ),
@@ -112,7 +127,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
@@ -124,7 +139,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
@@ -134,26 +149,41 @@ class _ProjectPageState extends State<ProjectPage>{
                           )
                         ],
                       ):Container(),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 8.0),
-                        height: 60,
-                        color: Colors.white70,
-                        child: Row(
-                          children: [
-                            SizedBox(height: 0,width:10),
-                            Text("Tomorrow", style: TextStyle(color: Colors.redAccent,fontSize: 20),),
-                            IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: changeShow2())
 
-                          ],
+                      //TOMORROW STARTS HERE
+                      TextButton(onPressed: (){
+                        tomorrow = !tomorrow;
+                        print(tomorrow);
+                        setState(() {
+
+                        });
+                      },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          height: 60,
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              SizedBox(height: 0,width:10),
+                              Text("Tomorrow", style: TextStyle(color: Colors.redAccent,fontSize: 20),),
+                            ],
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              return Color(0xFFF3CACA);// Use the component's default.
+                            },
+                          ),
                         ),
                       ),
-                  (show2)?Column(
+                  (tomorrow)?Column(
                         children: [
                           Container(
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
@@ -165,7 +195,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
@@ -175,26 +205,41 @@ class _ProjectPageState extends State<ProjectPage>{
                           ),
                         ],
                       ):Container(),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 8.0),
-                        height: 60,
-                        color: Colors.white70,
-                        child: Row(
-                          children: [
-                            SizedBox(height: 0,width:10),
-                            Text("Later", style: TextStyle(color: Colors.redAccent,fontSize: 20),),
-                            IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: changeShow3())
 
-                          ],
+                      //LATER STARTS HERE
+                      TextButton(onPressed: (){
+                        later = !later;
+                        print(later);
+                        setState(() {
+
+                        });
+                      },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                          height: 60,
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              SizedBox(height: 0,width:10),
+                              Text("Later", style: TextStyle(color: Colors.redAccent,fontSize: 20),),
+                            ],
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              return Color(0xFFF3CACA);// Use the component's default.
+                            },
+                          ),
                         ),
                       ),
-                  (show3)?Column(
+                  (later)?Column(
                         children: [
                           Container(
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
@@ -206,7 +251,7 @@ class _ProjectPageState extends State<ProjectPage>{
                             margin: EdgeInsets.fromLTRB(6, 6, 6, 0),
                             padding: EdgeInsets.all(2),
                             height: 50,
-                            color: Colors.grey,
+                            color: Color(0xFFCE3636),
                             child: Row(
                               children: [
                                 SizedBox(height: 0,width:10),
@@ -218,41 +263,26 @@ class _ProjectPageState extends State<ProjectPage>{
                       ):Container(),
 
 
-                ],)]):
+                ],):
                   Container(
 
 
-                  )
+                  ),
         ],
       ),
       ],
     ),);
   }
   changeFilter(String filter){
-    print(filter);
     filterType = filter;
     setState(() {
 
     });
 
 }
-  changeShow(){
-    print(show);
+  changeShow(bool show){
+    print(show.toString());
     show = !show;
-    setState(() {
-
-    });
-  }
-  changeShow2(){
-    print(show2);
-    show2 = !show2;
-    setState(() {
-
-    });
-  }
-  changeShow3(){
-    print(show3);
-    show3 = !show3;
     setState(() {
 
     });

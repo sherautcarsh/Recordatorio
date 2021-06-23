@@ -1,121 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:recordatorio/Pages/add.dart';
+import 'package:recordatorio/Pages/connect.dart';
+import 'package:recordatorio/Pages/feed.dart';
+import 'package:recordatorio/Pages/projects.dart';
+import 'package:recordatorio/Pages/user.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-class Tasks extends StatefulWidget {
+class Info extends StatefulWidget {
   @override
-  TasksState createState() => TasksState();
+  InfoState createState() => InfoState();
 }
-class TasksState extends State<Tasks> {
+class InfoState extends State<Info> {
 
   static const routeName = '/info';
   int currentindex = 0;
-  final PageController _pageController = PageController();
-
-  String valueChoose;
-  List listItem =[
-    "Personal", "Academics" , "Project"
+  List<Widget> pages = [
+    FeedPage(),
+    ProjectPage(),
+    AddProjectPage(),
+    ConnectPage(),
+    UserPage()
   ];
 
+
+
+  final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Should be Changed!!'),
-          actions: [
-            DropdownButton(
-              underline: Container(),
-              icon: Icon(
-                Icons.more_vert_sharp,
-                color: Theme.of(context).primaryIconTheme.color,
+    return DefaultTabController(
+      length: 5,
+      initialIndex: 0,
+      child: Scaffold(
+        body: TabBarView(
+            children: pages
+        ),
+        bottomNavigationBar: Container(
+          child: new TabBar(
+            tabs: [
+              Tab(
+                  icon: Icon(Icons.home)
               ),
-              items: [
-                DropdownMenuItem(
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Icon(Icons.exit_to_app_sharp),
-                        SizedBox(width: 10,),
-                        Text('LogOut'),
-                      ],
-                    ),
-                  ),
-                  value: 'LogOut',
-                ),
-              ],
-              onChanged: (itemIdentifier) {
-                if(itemIdentifier == 'LogOut'){
-                  FirebaseAuth.instance.signOut();
-                }
-              },
-            ),
-          ],
-        ),
-        body: PageView(
-          controller: _pageController,
-          children: [
-
-            ////////////////////////////    TASKS TAB ONLY    /////////////////////////////////////
-
-            Center(child: Text("Tab for tasks")),
-            /////////////////////////   TASKS COMPLETED    ///////////////////////////////
-
-            Center(child: Text("Tab for feed")),
-            Center(child: Text("Tab for notifications")),
-            Center(child: Text("Tab for posts")),
-          ],
-          onPageChanged: (int index) {
-            setState(() {
-              currentindex = index;
-            });
-          },
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentindex,
-          type: BottomNavigationBarType.shifting,
-          iconSize: 30,
-          elevation: 100000.0,
-          unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.red,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.post_add_sharp),
-              // ignore: deprecated_member_use
-              title: Text("TASKS"),
-              backgroundColor: Colors.grey[800],
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dynamic_feed_rounded),
-              // ignore: deprecated_member_use
-              title: Text("FEED"),
-              backgroundColor: Colors.grey[800],
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              // ignore: deprecated_member_use
-              title: Text("NOTIFICATIONS"),
-              backgroundColor: Colors.grey[800],
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.work_outlined),
-              // ignore: deprecated_member_use
-              title: Text("POSTS"),
-              backgroundColor: Colors.grey[800],
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              currentindex = index;
-            });
-            _pageController.jumpToPage(index);
-          },
+              Tab(
+                  icon: Icon(Icons.notes)
+              ),
+              Tab(
+                  icon: Icon(Icons.add)
+              ),
+              Tab(
+                  icon: Icon(Icons.connect_without_contact)
+              ),
+              Tab(
+                  icon: Icon(Icons.perm_identity)
+              )
+            ],
+            unselectedLabelColor: Colors.black,
+            labelColor: Colors.blue,
+            indicatorColor: Colors.transparent,
+          ),
         ),
       ),
     );
   }
-
-
 }

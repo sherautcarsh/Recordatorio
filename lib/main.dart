@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'screens/auth_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/info_page.dart';
@@ -13,6 +14,7 @@ void main(){
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return FutureBuilder(
       future: Firebase.initializeApp(),
       builder: (context, appSnapShot) {
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
                   return SplashScreen();
                 }
                 if (userSnapshot.hasData) {
-                  return Tasks();
+                  return Info();
                 }
                 return AuthScreen();
               }
