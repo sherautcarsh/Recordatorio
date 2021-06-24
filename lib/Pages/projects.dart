@@ -32,51 +32,51 @@ class _ProjectPageState extends State<ProjectPage>{
                 ),
               ],
             ),
-          Container(
-            height: 60,
-            color: Colors.redAccent,
-            child:Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: (){changeFilter("timeline");},
-                      child: Text("Timeline", style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26
-                      ),)
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      height: 4,
-                      width: 205,
-                      color: (filterType=="timeline")?Colors.white:Colors.transparent,
-                    ),
-                    ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                        onTap: (){changeFilter("projects");},
-                        child: Text("Projects", style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26
+            Container(
+              height: 60,
+              color: Colors.redAccent,
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: (){changeFilter("timeline");},
+                        child: Text("Timeline", style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26
                         ),)
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      height: 4,
-                      width: 205,
-                      color: (filterType=="projects")?Colors.white:Colors.transparent,
-                    ),
-                  ],
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        height: 4,
+                        width: 205,
+                        color: (filterType=="timeline")?Colors.white:Colors.transparent,
+                      ),
+                      ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                          onTap: (){changeFilter("projects");},
+                          child: Text("Projects", style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 26
+                          ),)
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        height: 4,
+                        width: 205,
+                        color: (filterType=="projects")?Colors.white:Colors.transparent,
+                      ),
+                    ],
+                  ),
+                ],
                 ),
-              ],
               ),
-            ),
               (filterType=="timeline")?
                   Expanded(
                   child: SingleChildScrollView(
