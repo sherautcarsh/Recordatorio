@@ -28,7 +28,9 @@ class _ProjectPageState extends State<ProjectPage>{
                 textAlign: TextAlign.center,
               ),
               actions: [
-                IconButton(icon:Icon(Icons.short_text, color: Colors.white,size: 30,)
+                IconButton(
+                  icon:Icon(Icons.short_text, color: Colors.white,size: 30,),
+                  onPressed: null,
                 ),
               ],
             ),
@@ -87,7 +89,7 @@ class _ProjectPageState extends State<ProjectPage>{
                     children:[
                         TextButton(onPressed: (){
                           today = !today;
-                          print(today);
+                          //print(today);
                           setState(() {
 
                           });
