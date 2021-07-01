@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/auth_form.dart';
 class AuthScreen extends StatefulWidget {
@@ -29,6 +28,8 @@ class _AuthScreenState extends State<AuthScreen>{
             'username': username,
             'email': email,
             'userType': usertype,
+            'about': 'Start writing about yourself ...',
+            'imageUrl': 'https://tse1.mm.bing.net/th?id=OIP.ksA_Oc-OvXQOJn1KRdaamAHaHa&pid=Api&P=0&w=300&h=300',
         });
       }
     } on FirebaseAuthException catch(err) {

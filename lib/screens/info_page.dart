@@ -21,14 +21,12 @@ class InfoState extends State<Info> {
     UserPage()
   ];
 
-
-
   final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
-      initialIndex: 0,
+      initialIndex: 4,
       child: Scaffold(
         body: TabBarView(
             children: pages
