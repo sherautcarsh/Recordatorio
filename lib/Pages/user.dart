@@ -121,7 +121,7 @@ class _UserPageState extends State<UserPage>{
       },
     ).then((value) => ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 4),
         content: Text('Go to other page and come back to see changes.',),
       ),
     ),);
