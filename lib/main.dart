@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'screens/auth_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/info_page.dart';
-import './screens/edit_user_profile_screen.dart';
 void main(){
   runApp(MyApp());
 }

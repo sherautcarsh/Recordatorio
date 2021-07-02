@@ -41,7 +41,12 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
           .update({
             'username': _editedName,
             'about': _editedAbout,
-          });
+          }).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 3),
+          content: Text('Refresh to see the changes',),
+        ),
+      ),);
     } catch (err) {
       print(err);
     }
@@ -56,13 +61,16 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
     return ChangeNotifierProvider(
       create: (ctx) => UserData(),
       child: Container(
-          height: MediaQuery.of(context).size.height*0.75,
-          child: Card(
+          height: MediaQuery.of(context).size.height*0.80,
+          child: SingleChildScrollView(
+            child: Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.0),
                   topRight: Radius.circular(50.0),
+                  bottomLeft: Radius.circular(50.0),
+                  bottomRight: Radius.circular(50.0),
                 ),
               ),
               margin: EdgeInsets.all(25),
@@ -141,6 +149,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                 ),
               ),
             ),
+          ),
       ),
     );
   }

@@ -39,16 +39,39 @@ class _UserPageState extends State<UserPage>{
                 },
               ),
               FlatButton.icon(
-                icon: Icon(Icons.image),
+                icon: Icon(Icons.image_outlined),
                 label: Text('Gallery'),
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
               ),
+              FlatButton.icon(
+                icon: Icon(Icons.delete_outline_outlined),
+                label: Text('Remove'),
+                onPressed: _removeImage,
+              ),
             ],
           ),
         )
     );
+  }
+
+  void _removeImage() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_auth.currentUser.uid)
+          .update({
+            'imageUrl': 'https://tse1.mm.bing.net/th?id=OIP.ksA_Oc-OvXQOJn1KRdaamAHaHa&pid=Api&P=0&w=300&h=300',
+          }).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 3),
+                  content: Text('Refresh to see the changes',),
+                ),
+              ),);
+    }catch (err) {
+      print(err);
+    }
   }
 
   void _pickImage(ImageSource source) async {
@@ -98,7 +121,12 @@ class _UserPageState extends State<UserPage>{
           .doc(_auth.currentUser.uid)
           .update({
               'imageUrl': imageUrl,
-          });
+          }).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 3),
+          content: Text('Refresh to see the changes',),
+        ),
+      ),);
     }catch (err) {
       print(err);
     }
@@ -109,8 +137,8 @@ class _UserPageState extends State<UserPage>{
     await showModalBottomSheet<dynamic>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.pink,
-      shape: RoundedRectangleBorder(  // <-- for border radius
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(50.0),
           topRight: Radius.circular(50.0),
@@ -119,12 +147,13 @@ class _UserPageState extends State<UserPage>{
       builder: (_) {
         return EditUserProfileScreen(name,about);
       },
-    ).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 4),
-        content: Text('Go to other page and come back to see changes.',),
-      ),
-    ),);
+    );
+  }
+  Future<DocumentSnapshot<Object>> _future = UserData().getCurrentUserData();
+  Future<void> _refresh() {
+    setState(() {
+      _future = UserData().getCurrentUserData();
+    });
   }
 
   @override
@@ -134,7 +163,7 @@ class _UserPageState extends State<UserPage>{
       child: Scaffold(
         backgroundColor: Colors.blueAccent,
         body: FutureBuilder(
-            future: UserData().getCurrentUserData(),
+            future: _future,
             builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return Column(
@@ -201,109 +230,112 @@ class _UserPageState extends State<UserPage>{
                       ],
                     ),
                     Expanded(
-                      child: ListView(
-                        physics: BouncingScrollPhysics(),
-                        children: [
-                          SizedBox(height: 10,),
-                          Center(
-                            child: Stack(
-                              children: [
-                                ClipOval(
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      child: CircleAvatar(
-                                        radius: 104,
-                                        backgroundColor: Colors.black,
+                      child: RefreshIndicator(
+                        onRefresh: _refresh,
+                        child: ListView(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          children: [
+                            SizedBox(height: 10,),
+                            Center(
+                              child: Stack(
+                                children: [
+                                  ClipOval(
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
                                         child: CircleAvatar(
-                                          radius: 100,
-                                          backgroundColor: Colors.white,
-                                          backgroundImage: NetworkImage(snapshot.data.get('imageUrl')),
-                                          // backgroundImage: pickedImage != null ? FileImage(pickedImage) :
-                                          // AssetImage('assets/images/userImage.jpg'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 10,
-                                  child: ClipOval(
-                                    child: Container(
-                                      padding: EdgeInsets.all(1),
-                                      color: Colors.white,
-                                      child: ClipOval(
-                                        child: Container(
-                                          //padding: EdgeInsets.all(1),
-                                          color: Colors.redAccent,
-                                          child: IconButton(
-                                            icon: Icon(Icons.edit),
-                                            color: Colors.white,
-                                            onPressed: () {
-                                              _choseImage(context);
-                                            },
+                                          radius: 104,
+                                          backgroundColor: Colors.black,
+                                          child: CircleAvatar(
+                                            radius: 100,
+                                            backgroundColor: Colors.white,
+                                            backgroundImage: NetworkImage(snapshot.data.get('imageUrl')),
+                                            // backgroundImage: pickedImage != null ? FileImage(pickedImage) :
+                                            // AssetImage('assets/images/userImage.jpg'),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // profile pic widget ended.......
-
-                          const SizedBox(height: 30,),
-                          Column(
-                            children: [
-                              Text(
-                                snapshot.data.get('username'),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 10,
+                                    child: ClipOval(
+                                      child: Container(
+                                        padding: EdgeInsets.all(1),
+                                        color: Colors.white,
+                                        child: ClipOval(
+                                          child: Container(
+                                            //padding: EdgeInsets.all(1),
+                                            color: Colors.redAccent,
+                                            child: IconButton(
+                                              icon: Icon(Icons.edit),
+                                              color: Colors.white,
+                                              onPressed: () {
+                                                _choseImage(context);
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 4,),
-                              Text(
-                                snapshot.data.get('email'),
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
 
-                          // name and email completed ....
+                            // profile pic widget ended.......
 
-                          const SizedBox(height: 50,),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 48,),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            const SizedBox(height: 30,),
+                            Column(
                               children: [
                                 Text(
-                                  'Description',
+                                  snapshot.data.get('username'),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 24,
+                                    fontSize: 30,
                                   ),
                                 ),
-                                const SizedBox(height: 15,),
+                                SizedBox(height: 4,),
                                 Text(
-                                  snapshot.data.get('about'),
+                                  snapshot.data.get('email'),
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    height: 1.4,
+                                    fontSize: 18,
                                   ),
-                                ),
+                                )
                               ],
                             ),
-                          ),
 
-                          // description ended ......
-                        ],
+                            // name and email completed ....
+
+                            const SizedBox(height: 50,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 48,),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Description',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15,),
+                                  Text(
+                                    snapshot.data.get('about'),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // description ended ......
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 10,),
