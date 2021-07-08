@@ -1,10 +1,17 @@
+import 'Post.dart';
+import 'User.dart';
+
 class Task{
+  User user;
   String heading;
   String description;
+  String tag;
   bool done;
   DateTime start;
   DateTime end;
-  Task(this.heading, this.description, this.done, this.start, this.end);
+  Post correspondingPost;
+
+  Task(this.heading, this.description, this.tag, this.done, this.start, this.end, this.correspondingPost);
 }
 
 

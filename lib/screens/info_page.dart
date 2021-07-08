@@ -26,7 +26,7 @@ class InfoState extends State<Info> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
-      initialIndex: 4,
+      initialIndex: 0,
       child: Scaffold(
         body: TabBarView(
             children: pages

@@ -53,7 +53,7 @@ class _ProjectPageState extends State<ProjectPage>{
                       SizedBox(height: 10,),
                       Container(
                         height: 4,
-                        width: 205,
+                        width: MediaQuery.of(context).size.width/2,
                         color: (filterType=="timeline")?Colors.white:Colors.transparent,
                       ),
                       ],
@@ -71,7 +71,7 @@ class _ProjectPageState extends State<ProjectPage>{
                       SizedBox(height: 10,),
                       Container(
                         height: 4,
-                        width: 205,
+                        width: MediaQuery.of(context).size.width/2,
                         color: (filterType=="projects")?Colors.white:Colors.transparent,
                       ),
                     ],
@@ -268,8 +268,7 @@ class _ProjectPageState extends State<ProjectPage>{
                               children: [
                                 SizedBox(height: 0,width:10),
                                 IconButton(onPressed: (){}, icon: Icon(Icons.check_circle_outline_outlined), highlightColor: Colors.blue,),
-                                Text("Make a to-do app", style: TextStyle(color: Colors.white,fontSize: 20),)
-                              ],
+                                Text("Make a to-do app", style: TextStyle(color: Colors.white,fontSize: 20),)                              ],
                             ),
                           ),
                           Container(
