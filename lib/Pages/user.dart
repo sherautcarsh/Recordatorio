@@ -8,10 +8,8 @@ import '../Providers/user_profile.dart';
 import '../screens/edit_user_profile_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 class UserPage extends StatefulWidget{
   @override
   _UserPageState createState() => _UserPageState();
@@ -137,20 +135,20 @@ class _UserPageState extends State<UserPage>{
     await showModalBottomSheet<dynamic>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(50.0),
-          topRight: Radius.circular(50.0),
-        ),
-      ),
+      backgroundColor: Colors.blueAccent,
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.only(
+      //     topLeft: Radius.circular(50.0),
+      //     topRight: Radius.circular(50.0),
+      //   ),
+      // ),
       builder: (_) {
         return EditUserProfileScreen(name,about);
       },
     );
   }
   Future<DocumentSnapshot<Object>> _future = UserData().getCurrentUserData();
-  Future<void> _refresh() {
+  Future<void> _refresh() async {
     setState(() {
       _future = UserData().getCurrentUserData();
     });
@@ -158,207 +156,204 @@ class _UserPageState extends State<UserPage>{
 
   @override
   Widget build(BuildContext context){
-    return ChangeNotifierProvider(
-      create: (ctx) => UserData(),
-      child: Scaffold(
-        backgroundColor: Colors.blueAccent,
-        body: FutureBuilder(
-            future: _future,
-            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          //alignment: Alignment.topRight,
-                          margin: EdgeInsets.all(10),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.add_box_outlined,
-                              size: 35,
-                            ),
-                            onPressed: () {},
+    return Scaffold(
+      backgroundColor: Colors.blueAccent,
+      body: FutureBuilder(
+          future: _future,
+          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Column(
+                children: [
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        //alignment: Alignment.topRight,
+                        margin: EdgeInsets.all(10),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.add_box_outlined,
+                            size: 35,
                           ),
+                          onPressed: () {},
                         ),
-                        Container(
-                          //alignment: Alignment.topRight,
-                          margin: EdgeInsets.all(10),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.exit_to_app_sharp,
-                              size: 35,
-                            ),
-                            onPressed: () {
-                              return  showDialog(
-                                context: context,
-                                builder: (ctx) => AlertDialog(
-                                  title: Text('Logout'),
-                                  content: Text('Are you sure you want to logout?'),
-                                  elevation: 20,
-                                  actions: [
-                                    FlatButton(
-                                      child: Text(
-                                        'NO',
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(false);
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text(
-                                        'YES',
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        FirebaseAuth.instance.signOut();
-                                        Navigator.of(context).pop(true);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                      ),
+                       Container(
+                        //alignment: Alignment.topRight,
+                        margin: EdgeInsets.all(10),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.exit_to_app_sharp,
+                            size: 35,
                           ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: _refresh,
-                        child: ListView(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          children: [
-                            SizedBox(height: 10,),
-                            Center(
-                              child: Stack(
-                                children: [
-                                  ClipOval(
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        child: CircleAvatar(
-                                          radius: 104,
-                                          backgroundColor: Colors.black,
-                                          child: CircleAvatar(
-                                            radius: 100,
-                                            backgroundColor: Colors.white,
-                                            backgroundImage: NetworkImage(snapshot.data.get('imageUrl')),
-                                            // backgroundImage: pickedImage != null ? FileImage(pickedImage) :
-                                            // AssetImage('assets/images/userImage.jpg'),
-                                          ),
-                                        ),
+                          onPressed: () {
+                            return  showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: Text('Logout'),
+                                content: Text('Are you sure you want to logout?'),
+                                elevation: 20,
+                                actions: [
+                                  FlatButton(
+                                    child: Text(
+                                      'NO',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(false);
+                                    },
                                   ),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 10,
-                                    child: ClipOval(
-                                      child: Container(
-                                        padding: EdgeInsets.all(1),
-                                        color: Colors.white,
-                                        child: ClipOval(
-                                          child: Container(
-                                            //padding: EdgeInsets.all(1),
-                                            color: Colors.redAccent,
-                                            child: IconButton(
-                                              icon: Icon(Icons.edit),
-                                              color: Colors.white,
-                                              onPressed: () {
-                                                _choseImage(context);
-                                              },
-                                            ),
-                                          ),
-                                        ),
+                                  FlatButton(
+                                    child: Text(
+                                      'YES',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
+                                    onPressed: () {
+                                      FirebaseAuth.instance.signOut();
+                                      Navigator.of(context).pop(true);
+                                    },
                                   ),
                                 ],
                               ),
-                            ),
-
-                            // profile pic widget ended.......
-
-                            const SizedBox(height: 30,),
-                            Column(
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: _refresh,
+                      child: ListView(
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          SizedBox(height: 10,),
+                          Center(
+                            child: Stack(
                               children: [
-                                Text(
-                                  snapshot.data.get('username'),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
+                                ClipOval(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      child: CircleAvatar(
+                                        radius: 104,
+                                        backgroundColor: Colors.black,
+                                        child: CircleAvatar(
+                                          radius: 100,
+                                          backgroundColor: Colors.white,
+                                          backgroundImage: NetworkImage(snapshot.data.get('imageUrl')),
+                                          // backgroundImage: pickedImage != null ? FileImage(pickedImage) :
+                                          // AssetImage('assets/images/userImage.jpg'),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 4,),
-                                Text(
-                                  snapshot.data.get('email'),
-                                  style: TextStyle(
-                                    fontSize: 18,
+                                Positioned(
+                                  bottom: 0,
+                                  right: 10,
+                                  child: ClipOval(
+                                    child: Container(
+                                      padding: EdgeInsets.all(1),
+                                      color: Colors.white,
+                                      child: ClipOval(
+                                        child: Container(
+                                          //padding: EdgeInsets.all(1),
+                                          color: Colors.redAccent,
+                                          child: IconButton(
+                                            icon: Icon(Icons.edit),
+                                            color: Colors.white,
+                                            onPressed: () {
+                                              _choseImage(context);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
-
-                            // name and email completed ....
-
-                            const SizedBox(height: 50,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 48,),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Description',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15,),
-                                  Text(
-                                    snapshot.data.get('about'),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      height: 1.4,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // description ended ......
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Center(
-                      child: RaisedButton(
-                        elevation: 0,
-                        child: Text(
-                          'Edit Profile',
-                          style: TextStyle(
-                            fontSize: 18,
                           ),
-                        ),
-                        onPressed: () {
-                          _editData(snapshot.data.get('username'),snapshot.data.get('about'));
-                        },
+
+                          // profile pic widget ended.......
+
+                          const SizedBox(height: 30,),
+                          Column(
+                            children: [
+                              Text(
+                                snapshot.data.get('username'),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                ),
+                              ),
+                              SizedBox(height: 4,),
+                              Text(
+                                snapshot.data.get('email'),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+
+                          // name and email completed ....
+
+                          const SizedBox(height: 50,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 48,),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Description',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                                ),
+                                const SizedBox(height: 15,),
+                                Text(
+                                  snapshot.data.get('about'),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // description ended ......
+                        ],
                       ),
                     ),
-                  ],
-                );
-              }
-              return Center(child: CircularProgressIndicator());
+                  ),
+                  SizedBox(height: 10,),
+                  Center(
+                    child: RaisedButton(
+                      elevation: 0,
+                      child: Text(
+                        'Edit Profile',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      onPressed: () {
+                        _editData(snapshot.data.get('username'),snapshot.data.get('about'));
+                      },
+                    ),
+                  ),
+                ],
+              );
             }
-          ),
+            return Center(child: CircularProgressIndicator());
+          }
         ),
       );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recordatorio/Pages/add.dart';
 import 'package:recordatorio/Pages/connect.dart';
 import 'package:recordatorio/Pages/feed.dart';
-import 'package:recordatorio/Pages/projects.dart';
+import 'package:recordatorio/Pages/tasks.dart';
 import 'package:recordatorio/Pages/user.dart';
 
 class Info extends StatefulWidget {
@@ -15,7 +15,7 @@ class InfoState extends State<Info> {
   int currentindex = 0;
   List<Widget> pages = [
     FeedPage(),
-    ProjectPage(),
+    TasksScreen(),
     AddProjectPage(),
     ConnectPage(),
     UserPage()
@@ -26,7 +26,7 @@ class InfoState extends State<Info> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
-      initialIndex: 4,
+      initialIndex: 1,
       child: Scaffold(
         body: TabBarView(
             children: pages
