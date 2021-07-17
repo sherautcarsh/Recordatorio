@@ -126,7 +126,6 @@ class _NewTaskBoxState extends State<NewTaskBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*0.6,
       width: MediaQuery.of(context).size.width*0.9,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -142,7 +141,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
               TextFormField(
                 key: ValueKey('title'),
                 decoration: InputDecoration(
-                  labelText: 'Title',
+                  labelText: 'Task Name',
                   icon: Icon(Icons.title),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
@@ -183,12 +182,6 @@ class _NewTaskBoxState extends State<NewTaskBox> {
                   letterSpacing: 1.5,
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Enter decription';
-                  }
-                  if(value.length < 30){
-                    return 'Too short!';
-                  }
                   return null;
                 },
                 onSaved: (String value) {
@@ -200,7 +193,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    newTask.startDate != null ? 'Start Date:- ${DateFormat('dd/MM/yyyy').format(newTask.startDate)}' : 'Choose Start Date',
+                    newTask.startDate != null ? 'Start Date:- ${DateFormat('dd/MM/yyyy').format(newTask.startDate)}' : 'Start Date',
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,
@@ -224,7 +217,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    newTask.startTime != null ? 'Start Time:- ${newTask.startTime.format(context)}' : 'Choose Starting Time',
+                    newTask.startTime != null ? 'Start Time:- ${newTask.startTime.format(context)}' : 'Starting Time',
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,
@@ -248,7 +241,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    newTask.dueDate != null ? 'Due Date:- ${DateFormat('dd/MM/yyyy').format(newTask.dueDate)}' : 'Choose Due Date',
+                    newTask.dueDate != null ? 'Due Date:- ${DateFormat('dd/MM/yyyy').format(newTask.dueDate)}' : 'Due Date',
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,
@@ -272,7 +265,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    newTask.dueTime != null ? 'Due Time:- ${newTask.dueTime.format(context)}' : 'Choose Due Time',
+                    newTask.dueTime != null ? 'Due Time:- ${newTask.dueTime.format(context)}' : 'Due Time',
                     style: TextStyle(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w600,

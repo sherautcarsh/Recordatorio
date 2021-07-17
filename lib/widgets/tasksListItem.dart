@@ -20,10 +20,15 @@ class _TaskListItemState extends State<TaskListItem> {
   Widget build(BuildContext context) {
 
     // final task = Provider.of<TaskItem>(context,listen: false);
+    final Map<DismissDirection, double> mp = {
+      DismissDirection.endToStart : 0.8
+    };
 
     return Dismissible(
       key: ValueKey(widget.task['title']),
       direction: DismissDirection.endToStart,
+      movementDuration: Duration(milliseconds: 50),
+      //dismissThresholds: mp,
       confirmDismiss: (direction) {
         return showDialog(
           context: context,
@@ -118,7 +123,6 @@ class _TaskListItemState extends State<TaskListItem> {
                 },
             ),
             title: Container(
-              margin: EdgeInsets.only(bottom: 5),
               child: Text(
                 widget.task['title'],
                 maxLines: 1,
@@ -148,12 +152,6 @@ class _TaskListItemState extends State<TaskListItem> {
                     backgroundColor: Colors.white,
                     child: TaskEditBox(
                       task: widget.task,
-                      /*title: widget.task['title'],
-                      description: widget.task['description'],
-                      dueTime: widget.task['dueTime'],
-                      dueDate: widget.task['dueDate'],
-                      startTime: widget.task['startTime'],
-                      startDate: widget.task['startDate'],*/
                     ),
                   ),
                 );

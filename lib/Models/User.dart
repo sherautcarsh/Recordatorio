@@ -1,7 +1,7 @@
 
 
+import 'package:recordatorio/Providers/Task.dart';
 import 'Post.dart';
-import 'Task.dart';
 
 class User{
   String username;

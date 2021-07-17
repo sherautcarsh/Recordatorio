@@ -26,27 +26,22 @@ class _TasksScreenState extends State<TasksScreen> {
     // final tasksProvider = Provider.of<Tasks>(context);
     // final tasksList = tasksProvider.tasks;
     return Scaffold(
-      backgroundColor: Colors.purpleAccent,
+      backgroundColor: Colors.redAccent,
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 75,
+        elevation: 5,
+        centerTitle: true,
+        title: Text("Tasks",
+          style: TextStyle(fontSize: 30, fontFamily: 'arial',),
+          textAlign: TextAlign.center,
+        ),
+        actions: [],
+      ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(left: 0,right: 0,top: 20,bottom: 10),
-            child: Center(
-              child: Text(
-                'To Do List',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            thickness: 1,
-            indent: 16,
-            endIndent: 16,
-          ),
+
           Expanded(
             child: Padding(
                 padding: const EdgeInsets.only(right: 10,left: 10,bottom: 0,top: 10),
@@ -69,7 +64,7 @@ class _TasksScreenState extends State<TasksScreen> {
             ),
         ],
       ),
-    floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
           return showDialog(

@@ -30,5 +30,4 @@ class Task{
     'isCompleted': isCompleted,
     'createdAt': Timestamp.now(),
   };
-
 }
