@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recordatorio/Pages/add.dart';
 import 'package:recordatorio/Pages/connect.dart';
 import 'package:recordatorio/Pages/feed.dart';
-import 'package:recordatorio/Pages/projects.dart';
+import 'package:recordatorio/Pages/tasks.dart';
 import 'package:recordatorio/Pages/user.dart';
 
 class Info extends StatefulWidget {
@@ -15,7 +15,7 @@ class InfoState extends State<Info> {
   int currentindex = 0;
   List<Widget> pages = [
     FeedPage(),
-    ProjectPage(),
+    TasksScreen(),
     AddProjectPage(),
     ConnectPage(),
     UserPage()

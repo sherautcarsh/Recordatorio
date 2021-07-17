@@ -54,7 +54,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   stream: FirebaseFirestore.instance.collection('otherUserData').doc(FirebaseAuth.instance.currentUser.uid).collection('tasks').orderBy('createdAt', descending: true).snapshots(),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting){
-                      return const Center(child: CircularProgressIndicator(color: Colors.yellowAccent,),);
+                      return const Center(child: CircularProgressIndicator(),);
                     }
                     if(!snapshot.hasData){
                       return const Center(child: Text('No data yet...'),);
