@@ -1,5 +1,116 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:recordatorio/Pages/connect.dart';
+import '../widgets/tasksListItem.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../widgets/new_task_box.dart';
+
+class TasksScreen extends StatefulWidget {
+
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+
+  // Stream<QuerySnapshot> getUserTaskStreamSnapshots(BuildContext context) async* {
+  //   final uid = FirebaseAuth.instance.currentUser.uid;
+  //   yield*
+  // }
+  @override
+  Widget build(BuildContext context) {
+
+    // final tasksProvider = Provider.of<Tasks>(context);
+    // final tasksList = tasksProvider.tasks;
+    return Scaffold(
+      backgroundColor: Colors.purpleAccent,
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 0,right: 0,top: 20,bottom: 10),
+            child: Center(
+              child: Text(
+                'To Do List',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            thickness: 1,
+            indent: 16,
+            endIndent: 16,
+          ),
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.only(right: 10,left: 10,bottom: 0,top: 10),
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('otherUserData').doc(FirebaseAuth.instance.currentUser.uid).collection('tasks').orderBy('createdAt', descending: true).snapshots(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const Center(child: CircularProgressIndicator(color: Colors.yellowAccent,),);
+                    }
+                    if(!snapshot.hasData){
+                      return const Center(child: Text('No data yet...'),);
+                    }
+                    return new ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context,int index) => TaskListItem(context, snapshot.data.docs[index]),
+                    );
+                  }
+                ),
+              ),
+            ),
+        ],
+      ),
+    floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          return showDialog(
+          context: context,
+          builder: (ctx) => Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 20,
+            backgroundColor: Colors.white,
+            child: NewTaskBox(),
+          ),
+        );
+        },
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+import 'package:flutter/material.dart';
+
 class ProjectPage extends StatefulWidget{
   @override
   _ProjectPageState createState() => _ProjectPageState();
@@ -315,3 +426,4 @@ class _ProjectPageState extends State<ProjectPage>{
     });
   }
 }
+*/

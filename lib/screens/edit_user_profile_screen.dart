@@ -61,10 +61,10 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
     return ChangeNotifierProvider(
       create: (ctx) => UserData(),
       child: Container(
-          height: MediaQuery.of(context).size.height*0.80,
+          height: MediaQuery.of(context).size.height*1.0,
           child: SingleChildScrollView(
             child: Card(
-              elevation: 2,
+              elevation: 20,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.0),
@@ -121,7 +121,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                         ),
                         keyboardType: TextInputType.multiline,
                         focusNode: _aboutFocusNode,
-                        maxLines: 3,
+                        maxLines: 5,
                         style: TextStyle(
                           letterSpacing: 1.5,
                         ),

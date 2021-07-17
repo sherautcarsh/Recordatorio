@@ -33,7 +33,7 @@ class _UserPageState extends State<UserPage>{
             children: [
               FlatButton.icon(
                 icon: Icon(Icons.camera_alt_outlined),
-                label: Text('Camera'),
+                label: Text('camera'),
                 onPressed: () {
                   _pickImage(ImageSource.camera);
                 },
@@ -310,7 +310,7 @@ class _UserPageState extends State<UserPage>{
 
                             const SizedBox(height: 50,),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12,),
+                              padding: const EdgeInsets.symmetric(horizontal: 48,),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -325,8 +325,8 @@ class _UserPageState extends State<UserPage>{
                                   Text(
                                     snapshot.data.get('about'),
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      height: 1.3,
+                                      fontSize: 16,
+                                      height: 1.4,
                                     ),
                                   ),
                                 ],
