@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:recordatorio/Pages/add.dart';
 
 import '../Providers/user_profile.dart';
 import '../screens/edit_user_profile_screen.dart';
@@ -31,21 +32,21 @@ class _UserPageState extends State<UserPage>{
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              FlatButton.icon(
+              TextButton.icon(
                 icon: Icon(Icons.camera_alt_outlined),
-                label: Text('camera'),
+                label: Text('Camera'),
                 onPressed: () {
                   _pickImage(ImageSource.camera);
                 },
               ),
-              FlatButton.icon(
+              TextButton.icon(
                 icon: Icon(Icons.image_outlined),
                 label: Text('Gallery'),
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
               ),
-              FlatButton.icon(
+              TextButton.icon(
                 icon: Icon(Icons.delete_outline_outlined),
                 label: Text('Remove'),
                 onPressed: _removeImage,
@@ -206,7 +207,7 @@ class _UserPageState extends State<UserPage>{
                                         ),
                                       ),
                                       onPressed: () {
-                                        Navigator.of(context).pop(false);
+                                        //Navigator.of(context).pop(false);
                                       },
                                     ),
                                     FlatButton(
@@ -218,7 +219,7 @@ class _UserPageState extends State<UserPage>{
                                       ),
                                       onPressed: () {
                                         FirebaseAuth.instance.signOut();
-                                        Navigator.of(context).pop(true);
+                                        //Navigator.of(context).pop(true);
                                       },
                                     ),
                                   ],
@@ -356,10 +357,13 @@ class _UserPageState extends State<UserPage>{
                   ],
                 );
               }
+
               return Center(child: CircularProgressIndicator());
             }
           ),
         ),
       );
+
+
   }
 }

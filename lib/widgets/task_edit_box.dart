@@ -129,7 +129,7 @@ class _TaskEditBoxState extends State<TaskEditBox> {
             FlatButton(
               child: Text('Okay'),
               onPressed: () {
-                Navigator.of(ctx).pop();
+                //Navigator.of(ctx).pop();
               },
             ),
           ],
@@ -139,7 +139,7 @@ class _TaskEditBoxState extends State<TaskEditBox> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 
   @override

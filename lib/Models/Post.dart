@@ -4,23 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'User.dart';
 
 class Post{
-  User user;
+  String title;
+  String userImageUrl;
   String description;
   String imageUrl;
-  List<User> likes;
-  List<User> comments;
+  List<String> likes;
+  List<String> comments;
   bool isLiked;
 
-  Post(this.user, this.imageUrl, this.description, this.likes, this.comments, this.isLiked);
+  Post({this.title, this.userImageUrl, this.imageUrl, this.description, this.isLiked});
 
   Map<String, dynamic> toJson(BuildContext ctx) => {
-    'title': user.username,
-    'description': description,
     'image': imageUrl,
+    'title': title,
+    'description': description,
+    'postImage': imageUrl,
     'isLiked': isLiked,
     'likes': likes,
     'comments': comments,
     'createdAt': Timestamp.now(),
-    
   };
 }

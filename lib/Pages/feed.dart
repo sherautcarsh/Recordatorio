@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recordatorio/widgets/Posts/postsListItem.dart';
 
 class FeedPage extends StatefulWidget{
   @override
@@ -25,7 +28,7 @@ class _FeedPageState extends State<FeedPage>{
           ),
           actions: [],
         ),
-        body:SingleChildScrollView(
+        body:/*SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
                 children: [
@@ -133,7 +136,36 @@ class _FeedPageState extends State<FeedPage>{
                   )
                 ]
             )
-        )
+        )*/
+          Column(
+            children: [
+              Expanded(child: StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('otherUserData')
+                    .doc(FirebaseAuth.instance.currentUser.uid)
+                    .collection('posts')
+                    .orderBy('createdAt', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    print("Yup");
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+                  if(!snapshot.hasData){
+                    print("No Posts here");
+                    return const Center(child: Text('No Posts yet'));
+                  }
+                  print(FirebaseAuth.instance.currentUser.uid);
+                  print(snapshot.data.docs);
+                  return new ListView.builder(
+
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) => PostsListItem(context, snapshot.data.docs[index])
+                  );
+                }
+              ))
+            ],
+          )
+
     );
   }
 }

@@ -53,7 +53,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 
   @override

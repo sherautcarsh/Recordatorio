@@ -23,8 +23,8 @@ class _TaskListItemState extends State<TaskListItem> {
     final Map<DismissDirection, double> mp = {
       DismissDirection.endToStart : 0.8
     };
-
     return Dismissible(
+
       key: ValueKey(widget.task['title']),
       direction: DismissDirection.endToStart,
       movementDuration: Duration(milliseconds: 50),

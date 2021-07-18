@@ -9,6 +9,7 @@ class UserModel {
   String email;
   String imageUrl;
   String about;
+  List<String> followers;
 
   UserModel({
     this.name,
@@ -16,6 +17,14 @@ class UserModel {
     this.imageUrl,
     this.about,
   });
+
+  Map<String, dynamic> toJson(BuildContext ctx) => {
+    'imageUrl': imageUrl,
+    'username': name,
+    'about': about,
+    'email': email,
+    'followers' : followers,
+  };
 }
 
 class UserData with ChangeNotifier {
@@ -30,3 +39,4 @@ class UserData with ChangeNotifier {
     }
   }
 }
+
