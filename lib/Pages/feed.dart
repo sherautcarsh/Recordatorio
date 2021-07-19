@@ -144,12 +144,14 @@ class _FeedPageState extends State<FeedPage>{
                 child: StreamBuilder(
                         stream:
                         FirebaseFirestore.instance
-                            .collection('posts').orderBy('createdAt', descending: true)
+                            .collection('otherUserData')
+                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .collection('posts')
+                            .orderBy('createdAt', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            print("Yup");
                             return const Center(
                               child: CircularProgressIndicator(),);
                           }

@@ -25,7 +25,6 @@ class _ConnectPageState extends State<ConnectPage>{
         ),
         actions: [],
       ),
-      body: ,
     );
   }
 }

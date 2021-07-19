@@ -10,10 +10,8 @@ class PostsListItem extends StatefulWidget{
   @override
   _PostListItemState createState() => _PostListItemState();
 }
-
 class _PostListItemState extends State<PostsListItem>{
 
-  bool liked = false;
   @override
   Widget build(BuildContext context) {
     //print("yo" + widget.post['title']);
@@ -73,12 +71,11 @@ class _PostListItemState extends State<PostsListItem>{
                       child: Stack(
                         alignment: Alignment(0,0),
                         children: <Widget>[
-                          Icon(Icons.favorite, color: (liked) ? Colors.red : Colors.black,size: 30,),
-                          IconButton(icon: Icon(Icons.favorite,), color: (liked)?Colors.red:Colors.white,
+                          Icon(Icons.favorite, color: (likes != null  &&likes.contains(FirebaseAuth.instance.currentUser.uid.toString())) ? Colors.red : Colors.black,size: 30,),
+                          IconButton(icon: Icon(Icons.favorite,), color: (likes != null  &&likes.contains(FirebaseAuth.instance.currentUser.uid.toString()))?Colors.red:Colors.white,
                             onPressed: ()async{
 
                             setState(() {
-                              liked = !liked;
                               if(likes != null  &&likes.contains(FirebaseAuth.instance.currentUser.uid.toString())){
                                 likes.remove(FirebaseAuth.instance.currentUser.uid);
                               }
@@ -91,7 +88,7 @@ class _PostListItemState extends State<PostsListItem>{
                               }
                             });
                             final uid = FirebaseAuth.instance.currentUser.uid;
-                            await FirebaseFirestore.instance.collection('posts').doc(widget.post.id).update({
+                            await FirebaseFirestore.instance.collection('otherUserData').doc(FirebaseAuth.instance.currentUser.uid).collection('posts').doc(widget.post.id).update({
                               'likes' : likes,
                             });
                           },splashColor: Colors.purple, splashRadius: 15,)
@@ -135,7 +132,8 @@ class _PostListItemState extends State<PostsListItem>{
           margin: EdgeInsets.fromLTRB(6, 6, 0, 0),
           child: Text(widget.post['description'],
             style: TextStyle(fontSize: 18, ),textAlign: TextAlign.left,),
-        )
+        ),
+        SizedBox(height: 10,)
     ]
     );
   }

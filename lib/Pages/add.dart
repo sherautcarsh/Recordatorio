@@ -119,7 +119,6 @@ class _AddProjectPageState extends State<AddProjectPage>{
 
   @override
   Widget build(BuildContext context){
-    final uid = FirebaseAuth.instance.currentUser.uid;
     final _formkey = GlobalKey<FormState>();
     final newPost = new Post();
     var _isLoading = false;
@@ -132,19 +131,20 @@ class _AddProjectPageState extends State<AddProjectPage>{
     newPost.likes = new List<String>();
 
     void _trySubmit(BuildContext context) async {
-      final isValid = _formkey.currentState.validate();
+      final isValid = _formkey.currentState.validate() && imageUrl != null;
       FocusScope.of(context).unfocus();
       if(!isValid){
         print("Not Valid");
         return;
       }
       _formkey.currentState.save();
-      print("Yo friend");
       try {
+        for(final follow in widget.snapshot.data['followers']) {
           await FirebaseFirestore.instance.collection('otherUserData')
-              .doc(FirebaseAuth.instance.currentUser.uid)
+              .doc(follow)
               .collection('posts')
               .add(newPost.toJson(context));
+        }
       } catch (err) {
         print(err);
         await showDialog<Null>(
