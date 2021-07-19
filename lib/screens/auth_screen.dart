@@ -30,6 +30,7 @@ class _AuthScreenState extends State<AuthScreen>{
             'userType': usertype,
             'about': 'Start writing about yourself ...',
             'imageUrl': 'https://tse1.mm.bing.net/th?id=OIP.ksA_Oc-OvXQOJn1KRdaamAHaHa&pid=Api&P=0&w=300&h=300',
+            'followers': null,
         });
       }
     } on FirebaseAuthException catch(err) {

@@ -207,7 +207,7 @@ class _UserPageState extends State<UserPage>{
                                         ),
                                       ),
                                       onPressed: () {
-                                        //Navigator.of(context).pop(false);
+                                        Navigator.of(context).pop(false);
                                       },
                                     ),
                                     FlatButton(
@@ -219,7 +219,7 @@ class _UserPageState extends State<UserPage>{
                                       ),
                                       onPressed: () {
                                         FirebaseAuth.instance.signOut();
-                                        //Navigator.of(context).pop(true);
+                                        Navigator.of(context).pop(true);
                                       },
                                     ),
                                   ],

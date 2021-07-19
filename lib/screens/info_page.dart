@@ -42,12 +42,12 @@ class InfoState extends State<Info> {
           FeedPage(),
           TasksScreen(),
           AddProjectPage(snapshot),
-          ConnectPage(),
+          ConnectPage(snapshot),
           UserPage()
         ];
         return new DefaultTabController(
           length: 5,
-          initialIndex: 1,
+          initialIndex: 3,
           child: Scaffold(
             body: TabBarView(
                 children: pages

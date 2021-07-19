@@ -6,22 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 class TaskEditBox extends StatefulWidget {
 
   final DocumentSnapshot task;
-  // final String title;
-  // final String description;
-  // final DateTime startDate;
-  // final TimeOfDay startTime;
-  // final DateTime dueDate;
-  // final TimeOfDay dueTime;
+
 
 
   TaskEditBox({
     @required this.task,
-    /*@required this.title,
-    @required this.description,
-    @required this.startDate,
-    @required this.startTime,
-    @required this.dueDate,
-    @required this.dueTime,*/
   });
   @override
   _TaskEditBoxState createState() => _TaskEditBoxState();

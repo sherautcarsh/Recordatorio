@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recordatorio/widgets/Posts/postsListItem.dart';
+import '../widgets/Posts/postsListItem.dart';
 
 class FeedPage extends StatefulWidget{
   @override
@@ -165,13 +165,25 @@ class _FeedPageState extends State<FeedPage>{
                           return new ListView.builder(
                               itemCount: snapshot.data.docs.length,
                               itemBuilder: (BuildContext context, int index) =>
-                                  PostsListItem(
-                                      context, snapshot.data.docs[index])
+                                  Column(
+                                    children: [
+                                      PostsListItem(context, snapshot.data.docs[index]),
+                                      SizedBox(height: 20,),
+                                      Divider(
+                                        color: Colors.black,
+                                        thickness: 5,
+                                      ),
+                                      Divider(
+                                        color: Colors.black,
+                                        thickness: 5,
+                                      ),
+                                      SizedBox(height: 20,),
+                                    ],
+                                  )
                           );
                         }
-
-
-              ),)
+                ),
+              )
             ],
           )
 

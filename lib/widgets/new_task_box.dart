@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-
-import 'package:provider/provider.dart';
 import '../Providers/Task.dart';
 class NewTaskBox extends StatefulWidget {
 
@@ -17,12 +15,6 @@ class _NewTaskBoxState extends State<NewTaskBox> {
 
 
   final newTask = new Task();
-  /*String title;
-  String description;
-  DateTime startDate;
-  DateTime dueDate;
-  TimeOfDay startTime;
-  TimeOfDay dueTime;*/
   var _isLoading = false;
 
   void _presentStartDatePicker() {
