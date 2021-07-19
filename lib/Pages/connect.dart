@@ -8,8 +8,24 @@ class ConnectPage extends StatefulWidget{
 class _ConnectPageState extends State<ConnectPage>{
   @override
   Widget build(BuildContext context){
-    return Container(
-      color: Colors.greenAccent,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 75,
+        elevation: 5,
+        centerTitle: true,
+        title: TextField(
+          decoration: InputDecoration(
+            hintText: "Connect with IIT-G",
+            hintStyle: TextStyle(fontSize: 30, fontFamily: 'arial',),
+          ),
+          style: TextStyle(fontSize: 30, fontFamily: 'arial',),
+          textAlign: TextAlign.center,
+        ),
+        actions: [],
+      ),
+      body: ,
     );
   }
 }
