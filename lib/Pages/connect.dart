@@ -33,21 +33,21 @@ class _ConnectPageState extends State<ConnectPage>{
             child: Padding(
               padding: const EdgeInsets.only(right: 10,left: 10,bottom: 0,top: 10),
               child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('users').where('userType', isEqualTo: 'Club').snapshots(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return const Center(child: CircularProgressIndicator(),);
-                    }
-                    if(!snapshot.hasData){
-                      return const Center(child: Text('No data yet...'),);
-                    }
+                stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).snapshots(),
+                builder: (context, snapshot1){
+                if(snapshot1.connectionState == ConnectionState.waiting){
+                  return const Center(child: CircularProgressIndicator(),);
+                }
+                if(!snapshot1.hasData){
+                  return const Center(child: Text('No data yet...'),);
+                }
                     return StreamBuilder(
-                        stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).snapshots(),
-                        builder: (context, snapshot1){
-                          if(snapshot1.connectionState == ConnectionState.waiting){
+                        stream: FirebaseFirestore.instance.collection('users').where('userType', isEqualTo: 'Club').snapshots(),
+                        builder: (context, snapshot) {
+                          if(snapshot.connectionState == ConnectionState.waiting){
                             return const Center(child: CircularProgressIndicator(),);
                           }
-                          if(!snapshot1.hasData){
+                          if(!snapshot.hasData){
                             return const Center(child: Text('No data yet...'),);
                           }
                           return new ListView.builder(
