@@ -14,12 +14,12 @@ class Info extends StatefulWidget {
 }
 class InfoState extends State<Info> {
 
-  Future<DocumentSnapshot<Object>> _future = UserData().getCurrentUserData();
-  Future<void> _refresh() {
+  //Future<DocumentSnapshot<Object>> _future = UserData().getCurrentUserData();
+  /*Future<void> _refresh() {
     setState(() {
       _future = UserData().getCurrentUserData();
     });
-  }
+  }*/
 
 
   static const routeName = '/info';

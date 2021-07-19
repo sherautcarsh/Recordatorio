@@ -79,22 +79,21 @@ class _ClubListItemState extends State<ClubListItem> {
             ),
           ),
           trailing: RaisedButton(
-            color: followers.contains(widget.club['id']) != null ? Colors.grey : Colors.red,
+            color: followers.contains(widget.club['id']) ? Colors.grey : Colors.red,
             child: Text(
-              followers.contains(widget.club['id']) != null ? 'Subscribed' : 'Subscribe',
+              followers.contains(widget.club['id']) ? 'Subscribed' : 'Subscribe',
             ),
 
           onPressed: () async {
             setState(() {
-              if (followers != null && followers.contains(
-                  FirebaseAuth.instance.currentUser.uid.toString())) {
-                followers.remove(FirebaseAuth.instance.currentUser.uid);
+              if (followers != null && followers.contains(widget.club['id'])) {
+                followers.remove(widget.club['id']);
               }
               else {
                 if (followers == null) {
                   followers = new List<dynamic>();
                 }
-                followers.add(FirebaseAuth.instance.currentUser.uid.toString());
+                followers.add(widget.club['id']);
               }
             });
             final uid = FirebaseAuth.instance.currentUser.uid;
