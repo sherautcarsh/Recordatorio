@@ -1,16 +1,12 @@
-# recordatorio
+# Record - atorio
 
-Reminder
+An Everything Reminder App, which allows you to boast about your work as well. 
 
-## Getting Started
+- CONNECT WITH CLUBS AND SOCIETIES OF YOUR COLLEGE SO YOU NEVER MISS AN MEETING OR EVENT.
+- LEARN ABOUT THE CLUBS WITH AN PERSONAL FEED.
+- CONNECT WITH OTHER CHANNELS(Such as Exam Deadlines Or Class Deadlines, so you don't miss any deadline, and a lot more)
+- ORGANIZE YOURSELF OR DON'T. YOU WILL HAVE AN OPTION TO DO SO. ;-)
+- BOAST ABOUT YOUR WORK (OR HOBBIES) WITH POSTS. Then increasing your following or popularity.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+In simple, connect with YOUR COLLEGE COMMUNITY, and don't miss any event, class or deadline.
