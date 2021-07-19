@@ -3,9 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/clubListItem.dart';
 class ConnectPage extends StatefulWidget{
-
-  final AsyncSnapshot<dynamic> snapshot;
-  ConnectPage(this.snapshot);
   @override
   _ConnectPageState createState() => _ConnectPageState();
 }
@@ -44,10 +41,22 @@ class _ConnectPageState extends State<ConnectPage>{
                     if(!snapshot.hasData){
                       return const Center(child: Text('No data yet...'),);
                     }
-                    return new ListView.builder(
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (BuildContext context,int index) => ClubListItem(context, snapshot.data.docs[index],widget.snapshot),
+                    return StreamBuilder(
+                        stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).snapshots(),
+                        builder: (context, snapshot1){
+                          if(snapshot1.connectionState == ConnectionState.waiting){
+                            return const Center(child: CircularProgressIndicator(),);
+                          }
+                          if(!snapshot1.hasData){
+                            return const Center(child: Text('No data yet...'),);
+                          }
+                          return new ListView.builder(
+                            itemCount: snapshot.data.docs.length,
+                            itemBuilder: (BuildContext context,int index) => ClubListItem(context, snapshot.data.docs[index], snapshot1),
+                          );
+                        }
                     );
+
                   }
               ),
             ),

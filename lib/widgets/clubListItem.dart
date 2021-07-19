@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,8 +8,8 @@ class ClubListItem extends StatefulWidget {
 
   final BuildContext ctx;
   final DocumentSnapshot club;
-  final AsyncSnapshot<dynamic> snapshot;
-  ClubListItem(this.ctx,this.club,this.snapshot);
+  final AsyncSnapshot<dynamic> user;
+  ClubListItem(this.ctx,this.club, this.user);
   @override
   _ClubListItemState createState() => _ClubListItemState();
 }
@@ -60,52 +61,57 @@ class _ClubListItemState extends State<ClubListItem> {
 
   @override
   Widget build(BuildContext context) {
-    var followers = widget.snapshot.data['followers'];
+  var followers = widget.user.data['followers'];
     return Container(
-      child: Card(
-        elevation: 20,
-        child: ListTile(
-          onTap: () {},
-          title: Container(
-            child: Text(
-              widget.club['username'],
-              maxLines: 1,
-              softWrap: true,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            child: Card(
+              elevation: 20,
+              child: ListTile(
+                onTap: () {},
+                title: Container(
+                  child: Text(
+                    widget.club['username'],
+                    maxLines: 1,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                trailing: RaisedButton(
+
+                    onPressed: () async {
+                      setState(() {
+                        if (followers != null && followers.contains(
+                            widget.club['id'])) {
+                          followers.remove(widget.club['id']);
+                        }
+                        else {
+                          if (followers == null) {
+                            followers = new List<dynamic>();
+                          }
+                          followers.add(widget.club['id']);
+                        }
+                      });
+                      final uid = FirebaseAuth.instance.currentUser.uid;
+                      await FirebaseFirestore.instance.collection('users')
+                          .doc(uid)
+                          .update({
+                        'followers': followers,
+                      });
+                    },
+                  color: (followers!=null&&followers.contains(widget.club['id']))
+                      ? Colors.grey
+                      : Colors.red,
+                  child: Text(
+                    (followers!=null&&followers.contains(widget.club['id']))
+                        ? 'Subscribed'
+                        : 'Subscribe',
+                  ),
+                ),
               ),
             ),
-          ),
-          trailing: RaisedButton(
-            color: followers.contains(widget.club['id']) ? Colors.grey : Colors.red,
-            child: Text(
-              followers.contains(widget.club['id']) ? 'Subscribed' : 'Subscribe',
-            ),
-
-          onPressed: () async {
-            setState(() {
-              if (followers != null && followers.contains(widget.club['id'])) {
-                followers.remove(widget.club['id']);
-              }
-              else {
-                if (followers == null) {
-                  followers = new List<dynamic>();
-                }
-                followers.add(widget.club['id']);
-              }
-            });
-            final uid = FirebaseAuth.instance.currentUser.uid;
-            await FirebaseFirestore.instance.collection('users')
-                .doc(uid)
-                .update({
-              'followers': followers,
-            });
-            }
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

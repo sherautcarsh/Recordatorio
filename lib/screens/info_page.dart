@@ -42,7 +42,7 @@ class InfoState extends State<Info> {
           FeedPage(),
           TasksScreen(),
           AddProjectPage(snapshot),
-          ConnectPage(snapshot),
+          ConnectPage(),
           UserPage()
         ];
         return new DefaultTabController(
