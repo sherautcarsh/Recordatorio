@@ -11,6 +11,7 @@ class UserModel {
   String imageUrl;
   String about;
   List<String> followers;
+  List<String> following;
 
   UserModel({
     this.name,
@@ -26,6 +27,7 @@ class UserModel {
     'about': about,
     'email': email,
     'followers' : followers,
+    'following' : following,
   };
 }
 

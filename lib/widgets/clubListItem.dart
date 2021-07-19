@@ -57,11 +57,11 @@ class _ClubListItemState extends State<ClubListItem> {
     super.initState();
   }*/
 
-  /// hfioehfejfioej
 
   @override
   Widget build(BuildContext context) {
-  var followers = widget.user.data['followers'];
+  var followers = widget.club['followers'];
+  var following = widget.user.data['following'];
     return Container(
             child: Card(
               elevation: 20,
@@ -80,32 +80,39 @@ class _ClubListItemState extends State<ClubListItem> {
                   ),
                 ),
                 trailing: RaisedButton(
-
                     onPressed: () async {
                       setState(() {
-                        if (followers != null && followers.contains(
+                        if (following != null && following.contains(
                             widget.club['id'])) {
-                          followers.remove(widget.club['id']);
+                          following.remove(widget.club['id']);
+                          followers.remove(FirebaseAuth.instance.currentUser.uid);
                         }
                         else {
-                          if (followers == null) {
-                            followers = new List<dynamic>();
+                          if (following == null) {
+                            following = new List<dynamic>();
                           }
-                          followers.add(widget.club['id']);
+                          following.add(widget.club['id']);
+                          followers.add(FirebaseAuth.instance.currentUser.uid);
                         }
                       });
                       final uid = FirebaseAuth.instance.currentUser.uid;
-                      await FirebaseFirestore.instance.collection('users')
+                      await Future.wait([FirebaseFirestore.instance.collection('users')
                           .doc(uid)
                           .update({
-                        'followers': followers,
-                      });
+                        'following': following,
+                      },),
+                      FirebaseFirestore.instance.collection('users').doc(widget.club['id']).update(
+                          {
+                            'followers':followers,
+                          }),
+                      ]);
+
                     },
-                  color: (followers!=null&&followers.contains(widget.club['id']))
+                  color: (following !=null && following.contains(widget.club['id']))
                       ? Colors.grey
                       : Colors.red,
                   child: Text(
-                    (followers!=null&&followers.contains(widget.club['id']))
+                    (following!=null && following.contains(widget.club['id']))
                         ? 'Subscribed'
                         : 'Subscribe',
                   ),
@@ -113,5 +120,6 @@ class _ClubListItemState extends State<ClubListItem> {
               ),
             ),
           );
+
   }
 }

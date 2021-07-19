@@ -76,9 +76,9 @@ class _NewTaskBoxState extends State<NewTaskBox> {
       });
     });
   }
+  bool forMem = false;
 
-
-  void _trySubmit(BuildContext context) async {
+  void _trySubmit(BuildContext context, AsyncSnapshot<dynamic> snapshot) async {
     final isValid = _form.currentState.validate();
     FocusScope.of(context).unfocus();
     if(!isValid){
@@ -88,9 +88,28 @@ class _NewTaskBoxState extends State<NewTaskBox> {
     setState(() {
       _isLoading = true;
     });
+
     try{
-      final uid = FirebaseAuth.instance.currentUser.uid;
-      await FirebaseFirestore.instance.collection('otherUserData').doc(uid.toString()).collection('tasks').add(newTask.toJson(context));
+      if(forMem) {
+        for (String follow in snapshot.data['followers']) {
+          final uid = FirebaseAuth.instance.currentUser.uid;
+          await Future.wait([
+            FirebaseFirestore.instance.collection('otherUserData')
+                .doc(follow)
+                .collection('tasks')
+                .add(newTask.toJson(context))
+          ]);
+        }
+      }
+      else{
+        final uid = FirebaseAuth.instance.currentUser.uid;
+        await Future.wait([
+        FirebaseFirestore.instance.collection('otherUserData')
+            .doc(uid)
+            .collection('tasks')
+            .add(newTask.toJson(context))
+        ]);
+      }
     }
     catch (err) {
       print(err);
@@ -118,177 +137,196 @@ class _NewTaskBoxState extends State<NewTaskBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width*0.9,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Form(
-          key: _form,
-          child: Column(
-            children: [
-              TextFormField(
-                key: ValueKey('title'),
-                decoration: InputDecoration(
-                  labelText: 'Task Name',
-                  icon: Icon(Icons.title),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                ),
-                style: TextStyle(
-                  letterSpacing: 1.5,
-                ),
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Enter a valid title';
-                  }
-                  if(value.length > 30) {
-                    return 'Too Long';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                  newTask.title = value;
-                },
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                key: ValueKey('description'),
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                  icon: Icon(Icons.text_snippet_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                ),
-                keyboardType: TextInputType.multiline,
-                maxLines: 6,
-                style: TextStyle(
-                  letterSpacing: 1.5,
-                ),
-                validator: (value) {
-                  return null;
-                },
-                onSaved: (String value) {
-                  newTask.description = value;
-                },
-              ),
-              SizedBox(height: 5,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    newTask.startDate != null ? 'Start Date:- ${DateFormat('dd/MM/yyyy').format(newTask.startDate)}' : 'Start Date',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                      fontSize: 15,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: _presentStartDatePicker,
-                    child: Text(
-                      'Choose',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    newTask.startTime != null ? 'Start Time:- ${newTask.startTime.format(context)}' : 'Starting Time',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                      fontSize: 15,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: _presentStartTimePicker,
-                    child: Text(
-                      'Choose',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    newTask.dueDate != null ? 'Due Date:- ${DateFormat('dd/MM/yyyy').format(newTask.dueDate)}' : 'Due Date',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                      fontSize: 15,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: _presentDueDatePicker,
-                    child: Text(
-                      'Choose',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    newTask.dueTime != null ? 'Due Time:- ${newTask.dueTime.format(context)}' : 'Due Time',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                      fontSize: 15,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: _presentDueTimePicker,
-                    child: Text(
-                      'Choose',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20,),
-              _isLoading ? CircularProgressIndicator() : RaisedButton(
-                child: Text('SAVE'),
-                onPressed: () {
-                  _trySubmit(context);
-                },
-              ),
-            ],
+
+    return StreamBuilder<dynamic>(
+      stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).snapshots(),
+      builder: (context, snapshot) {
+        return Container(
+          width: MediaQuery.of(context).size.width*0.9,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
           ),
-        ),
-      ),
+          margin: EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  TextFormField(
+                    key: ValueKey('title'),
+                    decoration: InputDecoration(
+                      labelText: 'Task Name',
+                      icon: Icon(Icons.title),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    ),
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                    ),
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Enter a valid title';
+                      }
+                      if(value.length > 30) {
+                        return 'Too Long';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      newTask.title = value;
+                    },
+                  ),
+                  SizedBox(height: 10,),
+                  TextFormField(
+                    key: ValueKey('description'),
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      icon: Icon(Icons.text_snippet_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    ),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 6,
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                    ),
+                    validator: (value) {
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      newTask.description = value;
+                    },
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        newTask.startDate != null ? 'Start Date:- ${DateFormat('dd/MM/yyyy').format(newTask.startDate)}' : 'Start Date',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          fontSize: 15,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: _presentStartDatePicker,
+                        child: Text(
+                          'Choose',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        newTask.startTime != null ? 'Start Time:- ${newTask.startTime.format(context)}' : 'Starting Time',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          fontSize: 15,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: _presentStartTimePicker,
+                        child: Text(
+                          'Choose',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        newTask.dueDate != null ? 'Due Date:- ${DateFormat('dd/MM/yyyy').format(newTask.dueDate)}' : 'Due Date',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          fontSize: 15,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: _presentDueDatePicker,
+                        child: Text(
+                          'Choose',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        newTask.dueTime != null ? 'Due Time:- ${newTask.dueTime.format(context)}' : 'Due Time',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          fontSize: 15,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: _presentDueTimePicker,
+                        child: Text(
+                          'Choose',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20,),
+                  Row(
+                    children: [
+                      Text("For Members", style: TextStyle(fontSize: 18),),
+                      TextButton(
+                          onPressed: (){
+                            forMem = !forMem;
+                            setState(() {
+                              newTask.forMembers = forMem;
+                            });
+                          },
+                          child: Icon((forMem)?Icons.check_circle:Icons.check_circle_outline_outlined)),
+                    ],
+                  ),
+                  _isLoading ? CircularProgressIndicator() : RaisedButton(
+                    child: Text('SAVE'),
+                    onPressed: () {
+                      _trySubmit(context, snapshot);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
     );
   }
 }

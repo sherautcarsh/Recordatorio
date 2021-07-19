@@ -9,6 +9,7 @@ class Task{
   DateTime dueDate;
   TimeOfDay dueTime;
   bool isCompleted;
+  bool forMembers;
 
   Task({
     this.title,
@@ -18,6 +19,7 @@ class Task{
     this.dueDate,
     this.dueTime,
     this.isCompleted = false,
+    this.forMembers
   });
 
   Map<String, dynamic> toJson(BuildContext ctx) => {
@@ -29,5 +31,6 @@ class Task{
     'dueTime': dueTime.format(ctx).toString().trim(),
     'isCompleted': isCompleted,
     'createdAt': Timestamp.now(),
+    'forMembers' : forMembers,
   };
 }
