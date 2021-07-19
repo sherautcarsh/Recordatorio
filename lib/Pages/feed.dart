@@ -11,6 +11,7 @@ class FeedPage extends StatefulWidget{
 class _FeedPageState extends State<FeedPage>{
 
   bool done = false;
+
   @override
   Widget build(BuildContext context){
     double width = MediaQuery.of(context).size.width;
@@ -139,30 +140,36 @@ class _FeedPageState extends State<FeedPage>{
         )*/
           Column(
             children: [
-              Expanded(child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('otherUserData')
-                    .doc(FirebaseAuth.instance.currentUser.uid)
-                    .collection('posts')
-                    .orderBy('createdAt', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot){
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    print("Yup");
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
-                  if(!snapshot.hasData){
-                    print("No Posts here");
-                    return const Center(child: Text('No Posts yet'));
-                  }
-                  print(FirebaseAuth.instance.currentUser.uid);
-                  print(snapshot.data.docs);
-                  return new ListView.builder(
+              Expanded(
+                child: StreamBuilder(
+                        stream:
+                        FirebaseFirestore.instance
+                            .collection('posts').orderBy('createdAt', descending: true)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            print("Yup");
+                            return const Center(
+                              child: CircularProgressIndicator(),);
+                          }
+                          if (!snapshot.hasData) {
+                            print("No Posts here");
+                            return const Center(child: Text('No Posts yet'));
+                          }
+                          print(
+                              FirebaseAuth.instance.currentUser.uid.toString());
+                          print(snapshot.data.docs.length);
+                          return new ListView.builder(
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  PostsListItem(
+                                      context, snapshot.data.docs[index])
+                          );
+                        }
 
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (BuildContext context, int index) => PostsListItem(context, snapshot.data.docs[index])
-                  );
-                }
-              ))
+
+              ),)
             ],
           )
 

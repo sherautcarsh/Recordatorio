@@ -119,7 +119,7 @@ class _AddProjectPageState extends State<AddProjectPage>{
 
   @override
   Widget build(BuildContext context){
-    String uid = FirebaseAuth.instance.currentUser.uid;
+    final uid = FirebaseAuth.instance.currentUser.uid;
     final _formkey = GlobalKey<FormState>();
     final newPost = new Post();
     var _isLoading = false;
@@ -129,7 +129,7 @@ class _AddProjectPageState extends State<AddProjectPage>{
     newPost.title = widget.snapshot.data['username'];
     newPost.userImageUrl = widget.snapshot.data['imageUrl'];
     newPost.imageUrl = imageUrl;
-    newPost.isLiked = false;
+    newPost.likes = new List<String>();
 
     void _trySubmit(BuildContext context) async {
       final isValid = _formkey.currentState.validate();
@@ -141,14 +141,10 @@ class _AddProjectPageState extends State<AddProjectPage>{
       _formkey.currentState.save();
       print("Yo friend");
       try {
-        final followers = widget.snapshot.data['followers'];
-        for (String follow in followers){
-          print(follow);
           await FirebaseFirestore.instance.collection('otherUserData')
-              .doc(follow)
+              .doc(FirebaseAuth.instance.currentUser.uid)
               .collection('posts')
               .add(newPost.toJson(context));
-        }
       } catch (err) {
         print(err);
         await showDialog<Null>(
@@ -171,6 +167,28 @@ class _AddProjectPageState extends State<AddProjectPage>{
         _isLoading = false;
       });
       //Navigator.of(context).pop();
+      try{
+        await FirebaseFirestore.instance.collection('posts')
+            .add(newPost.toJson(context));
+      }
+      catch(err){
+        print(err);
+        await showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('ERRORRRRRRR'),
+            content: Text('YOOO ERROR'),
+            actions: [
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }
     }
     return Scaffold(
         appBar: AppBar(
@@ -233,8 +251,6 @@ class _AddProjectPageState extends State<AddProjectPage>{
                       maxLines: 15,
                       onSaved: (String value){
                         newPost.description = value;
-
-
                       }
                     ),
                     SizedBox(height: 5,),

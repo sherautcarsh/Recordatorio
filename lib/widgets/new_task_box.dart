@@ -98,8 +98,9 @@ class _NewTaskBoxState extends State<NewTaskBox> {
     });
     try{
       final uid = FirebaseAuth.instance.currentUser.uid;
-      await FirebaseFirestore.instance.collection('otherUserData').doc(uid).collection('tasks').add(newTask.toJson(context));
-    } catch (err) {
+      await FirebaseFirestore.instance.collection('otherUserData').doc(uid.toString()).collection('tasks').add(newTask.toJson(context));
+    }
+    catch (err) {
       print(err);
       await showDialog<Null>(
         context: context,
@@ -110,7 +111,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
             FlatButton(
               child: Text('Okay'),
               onPressed: () {
-                //Navigator.of(ctx).pop();
+                Navigator.of(ctx).pop();
               },
             ),
           ],
@@ -120,7 +121,7 @@ class _NewTaskBoxState extends State<NewTaskBox> {
     setState(() {
       _isLoading = false;
     });
-    //Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override

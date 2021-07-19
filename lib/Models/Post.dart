@@ -10,16 +10,14 @@ class Post{
   String imageUrl;
   List<String> likes;
   List<String> comments;
-  bool isLiked;
 
-  Post({this.title, this.userImageUrl, this.imageUrl, this.description, this.isLiked});
+  Post({this.title, this.userImageUrl, this.imageUrl, this.description});
 
   Map<String, dynamic> toJson(BuildContext ctx) => {
-    'image': imageUrl,
+    'image': userImageUrl,
     'title': title,
     'description': description,
     'postImage': imageUrl,
-    'isLiked': isLiked,
     'likes': likes,
     'comments': comments,
     'createdAt': Timestamp.now(),
